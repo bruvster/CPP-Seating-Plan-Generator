@@ -1,0 +1,111 @@
+************** Mia Murray - 655671493 - Assignment 2 - CSCI485 - October 11th ******************
+
+************************************* ASSIGNMENT REPORT ****************************************
+
+Compilation and Execution:
+
+    This application requires that the file structure is as follows:
+    A1
+     - bin
+     - build
+     Assignment_Report.txt
+     Guests.txt
+     Makefile
+     SearchAgent.cpp
+     SearchAgent.h
+
+    Run the following commands to execute the AI Search Agent:
+
+    make clean
+    make run
+    ./bin/run {inputfile.txt}
+
+    Note** You can use the provided Guests.txt file OR provide your own txt file.
+
+Formal CSP Problem Definition for the party seating problem:
+
+    Variables : X1 to Xn tables where X is a table and n is the total number of tables
+    Constraints: T1 to Tn where T is together pairs and n is number of together pairs
+                 A1 to An where A is apart paires and n is number of apart pairs
+    Domain : D1 to Dn where D is a table domain corresponding to the same numbered table
+    States: One state is a seating arrangement that is consistent but can be incomplete or empty
+    Complete Assignment: All of the guests have a seat (assumes none of the constraints have 
+                         been violated)
+
+Encoding format of a party seating problem and constraints:
+
+    The party guestlist is inputted into the program via a txt file placed in the same directory.
+    You can use the Guests.txt file provided or make your own.
+    You must enter the guest names with a newline seperating each, don't leave any spaces before
+    or after the guest names. Don't put a newline before the first name or after the last name.
+    This program expects you to enter the constraints during execution as user input. Make sure
+    that the guests you are entering who want to sit together and dont want to sit together have
+    the same capitalization as the ones in the list (guest names are case sensitive). The program
+    will guide you through entering the guests constraints with sufficient error checking to 
+    make sure the input is valid.
+
+Outputs:
+
+    If a solution is found, the program will output the table arrangemen. Here is an example:
+
+    ****************************SOLUTION FOUND***************************
+
+    *******************************Table 1*******************************
+    Andy
+    Bob
+    Cathy
+    David
+    *********************************************************************
+
+
+    *******************************Table 2*******************************
+    Ethan
+    Frank
+    Gareth
+    Hugh
+    *********************************************************************
+
+
+    *******************************Table 3*******************************
+    Irene
+    Jack
+    Ken
+    Liam
+    *********************************************************************
+
+    If there is no solution, the output will be: NO SOLUTION
+
+Encoding and Maintenence of problem states:
+
+    My program has a problem class that allows us to store the current remaining values, the
+    constraints, the original guestlist, and the current arrangement (I call it arrangement
+    to distinguish it from a final assignment). The heuristics are then taken care of during the
+    value assignment phase of the RecursiveBacktracking function.
+
+Search Strategies and Heuristics:
+
+    My program utelizes the following heuristics:
+    
+    Minimum Remaining Values: While checking if a table has the current value in its domain, I 
+    also check if the tables size is bigger than the others but not full. This means that the 
+    table with the lowest number of empty seats will allways be assigned.
+    
+    Most Constraining Variable: The guestlist is preprocessed in search() ensuring that the
+    values are ordered by most constraints to least constraints.
+
+    Forward checking uses the constraints lists to make sure that upon a value assignment,
+    the domains of the other tables are updated to make sure that no inconsistent assignments
+    can be made. 
+    Ex: Cathy is assigned to table 2, and has a constaint that she cannot sit next 
+    to Bob, so Bob is removed from the domain of table 2.
+    Ex2:Ken is assigned to table 4, and has a constraint that he must sit next to Andy, so Andy
+    is removed from the domain of every table except table 4.
+
+Bugs:
+    There are some constraint combinations that I have tested that falsely claim NO SOLUTION 
+    despite their being one. I think their may be an issue with my recursion function that I 
+    haven't been able to solve.
+
+Comments:
+
+    Thank you !
